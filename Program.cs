@@ -7,41 +7,47 @@ namespace Hangman
         public class HangmanGame
         {
             int remainingGuesses = 4;
-            Random random = new Random();
+            
+            public string WordToBlank { get; set; }
+
             public string selectRandomWordAndHide()
             {
-                var wordsToGuess = new List<string>() { "bottle", "orange", "radar", "add" };
-                string wordToBlank = wordsToGuess[random.Next(0, 5)];
                 string blankedWord = "";
-                for (int i = 0; i < wordToBlank.Length; i++)
+                for (int i = 0; i < WordToBlank.Length; i++)
                 {
-                    blankedWord += (wordToBlank[i].ToString().Replace(wordToBlank[i].ToString(), "_  "));
+                    blankedWord += (WordToBlank[i].ToString().Replace(WordToBlank[i].ToString(), "_  "));
                 }
-                Console.Write(blankedWord);
                 return blankedWord;
             }
 
-            public string evaluateCharacter(string guess)
+            public void evaluateCharacter(string word, string guess)
             {
-                // if character exists in string
-                // replace blank tile(s) with actual character
-                // else 
-                // Inform player that it doesn't exist
-                // Draw the hangman
-                // Decrement guesses remaining
-                return "";
+                for (int i = 0; i < word.Length; i++)
+                    if (word.Contains(guess))
+                    {
+                        Console.WriteLine("Exists");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Doesn't Exist");
+                        remainingGuesses--;
+                        Thread.Sleep(1000);
+                        Console.WriteLine("Draw line here");
+                    }
             }
-
-
         }
         
         static void Main(string[] args)
         {
             HangmanGame hmg = new HangmanGame();
-            hmg.selectRandomWordAndHide();
+            Random random = new Random();
+            List<string> wordsToGuess = new List<string>() { "BOTTLE", "ORANGE", "RADAR", "ADD" };
+
+            hmg.WordToBlank = wordsToGuess[random.Next(0, wordsToGuess.ToArray().Length)];
 
             Console.WriteLine($"Enter a letter: {hmg.selectRandomWordAndHide()}");
             string guessLetter = Console.ReadLine();
+            hmg.evaluateCharacter(hmg.WordToBlank, guessLetter.ToUpper());
         }
     }
 }
