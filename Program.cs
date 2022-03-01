@@ -14,17 +14,18 @@ namespace Hangman
 
             for (int i = 0; i < wordToBlank.Length; i++)
             {
-
                 blankedWord += (wordToBlank[i].ToString().Replace(wordToBlank[i].ToString(), "_  "));
             }
 
-            Console.WriteLine($"Enter a letter: {blankedWord}");
+            Console.Write($"Enter a letter: {blankedWord}");
             string guessLetter = Console.ReadLine();
             for (int i = 0; i < wordToBlank.Length; i++)
             {
-                if (wordToBlank.Contains(guessLetter))
+                if (wordToBlank.Equals(guessLetter))
                 {
                     Console.WriteLine("Exists");
+                    blankedWord += (wordToBlank[i].ToString().Replace("_", guessLetter));
+                    Console.WriteLine(blankedWord);
                 }
                 else
                 {
