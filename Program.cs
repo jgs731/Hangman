@@ -11,21 +11,23 @@ namespace Hangman
             int remainingGuesses = 4;
             string wordToBlank = wordsToGuess[random.Next(0, wordsToGuess.Count)];
             string blankedWord = "";
+            string newString = "";
 
             for (int i = 0; i < wordToBlank.Length; i++)
             {
-                blankedWord += (wordToBlank[i].ToString().Replace(wordToBlank[i].ToString(), "_  "));
+                blankedWord += "_  ";
             }
 
-            Console.Write($"Enter a letter: {blankedWord}");
-            string guessLetter = Console.ReadLine();
             for (int i = 0; i < wordToBlank.Length; i++)
             {
-                if (wordToBlank.Equals(guessLetter))
+                Console.Write($"Enter a letter: {blankedWord}");
+                string guessLetter = Console.ReadLine().ToUpper();
+
+                if (wordToBlank[i].ToString() == guessLetter)
                 {
                     Console.WriteLine("Exists");
-                    blankedWord += (wordToBlank[i].ToString().Replace("_", guessLetter));
-                    Console.WriteLine(blankedWord);
+                    newString = blankedWord.Replace("_", guessLetter);
+                    Console.WriteLine(newString);
                 }
                 else
                 {
@@ -35,6 +37,7 @@ namespace Hangman
                     Console.WriteLine("Draw line here");
                 }
             }
+            Console.WriteLine(newString);
         }
     }
 }
