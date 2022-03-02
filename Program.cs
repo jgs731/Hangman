@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Hangman
 {
@@ -11,7 +12,7 @@ namespace Hangman
             int remainingGuesses = 4;
             string wordToBlank = wordsToGuess[random.Next(0, wordsToGuess.Count)];
             string blankedWord = "";
-            string newString = "";
+            StringBuilder stringBuilder = null;
 
             for (int i = 0; i < wordToBlank.Length; i++)
             {
@@ -26,8 +27,9 @@ namespace Hangman
                 if (wordToBlank[i].ToString() == guessLetter)
                 {
                     Console.WriteLine("Exists");
-                    newString = blankedWord.Replace("_", guessLetter);
-                    Console.WriteLine(newString);
+                    stringBuilder = new StringBuilder(blankedWord);
+                    stringBuilder.Insert(i, guessLetter);
+                    Console.WriteLine(stringBuilder.ToString());
                 }
                 else
                 {
@@ -37,7 +39,7 @@ namespace Hangman
                     Console.WriteLine("Draw line here");
                 }
             }
-            Console.WriteLine(newString);
+            Console.WriteLine(stringBuilder.ToString());
         }
     }
 }
