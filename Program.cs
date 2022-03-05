@@ -16,30 +16,32 @@ namespace Hangman
 
             for (int i = 0; i < wordToBlank.Length; i++)
             {
-                blankedWord += "_  ";
+                blankedWord += "_";
             }
 
-            for (int i = 0; i < wordToBlank.Length; i++)
+            stringBuilder = new StringBuilder(blankedWord);
+            while (remainingGuesses != 0)
             {
-                Console.Write($"Enter a letter: {blankedWord}");
-                string guessLetter = Console.ReadLine().ToUpper();
+                for (int i = 0; i < wordToBlank.Length; i++)
+                {
+                    Console.WriteLine($"Enter a letter: {blankedWord}");
+                    string guessLetter = Console.ReadLine().ToUpper();
+                    if (wordToBlank[i].ToString() == guessLetter)
+                    {
+                        Console.WriteLine("Exists");
+                        stringBuilder.Remove(i, 1).Insert(i, guessLetter).ToString(); // Remove underscore character + insert correct character in its place
+                    }
+                    else
+                    {
+                        Console.WriteLine("Doesn't Exist");
+                        remainingGuesses--;
 
-                if (wordToBlank[i].ToString() == guessLetter)
-                {
-                    Console.WriteLine("Exists");
-                    stringBuilder = new StringBuilder(blankedWord);
-                    stringBuilder.Insert(i, guessLetter);
-                    Console.WriteLine(stringBuilder.ToString());
+                        Thread.Sleep(1000);
+                        Console.WriteLine("Draw line here"); // Draw method to be implemented and called on this line
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("Doesn't Exist");
-                    remainingGuesses--;
-                    Thread.Sleep(1000);
-                    Console.WriteLine("Draw line here");
-                }
+                Console.WriteLine(stringBuilder.ToString());
             }
-            Console.WriteLine(stringBuilder.ToString());
         }
     }
 }
