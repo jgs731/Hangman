@@ -12,24 +12,22 @@ namespace Hangman
             int remainingGuesses = 4;
             string wordToBlank = wordsToGuess[random.Next(0, wordsToGuess.Count)];
             string blankedWord = "";
-            StringBuilder stringBuilder = null;
 
             for (int i = 0; i < wordToBlank.Length; i++)
             {
                 blankedWord += "_";
             }
 
-            stringBuilder = new StringBuilder(blankedWord);
             while (remainingGuesses != 0)
             {
-                for (int i = 0; i < wordToBlank.Length; i++)
+                Console.WriteLine($"Enter a letter: {blankedWord}");
+                string guessLetter = Console.ReadLine().ToUpper();
+                for (int i = 0; i < blankedWord.Length; i++)
                 {
-                    Console.WriteLine($"Enter a letter: {blankedWord}");
-                    string guessLetter = Console.ReadLine().ToUpper();
                     if (wordToBlank[i].ToString() == guessLetter)
                     {
                         Console.WriteLine("Exists");
-                        stringBuilder.Remove(i, 1).Insert(i, guessLetter).ToString(); // Remove underscore character + insert correct character in its place
+                        blankedWord = blankedWord.Remove(i, 1).Insert(i, guessLetter).ToString(); // Remove underscore character + insert correct character in its place
                     }
                     else
                     {
@@ -40,7 +38,7 @@ namespace Hangman
                         Console.WriteLine("Draw line here"); // Draw method to be implemented and called on this line
                     }
                 }
-                Console.WriteLine(stringBuilder.ToString());
+                Console.WriteLine(blankedWord);
             }
         }
     }
