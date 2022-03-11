@@ -13,35 +13,41 @@ namespace Hangman
             string wordToBlank = wordsToGuess[random.Next(0, wordsToGuess.Count)];
             string blankedWord = "";
 
-            for (int i = 0; i < wordToBlank.Length; i++)
-            {
-                blankedWord += "_";
-            }
+            for (int i = 0; i < wordToBlank.Length; i++) blankedWord += "_";
 
-            while (blankedWord != wordToBlank || remainingGuesses > 0)
+            while (wordToBlank != blankedWord || remainingGuesses!= 0)
             {
                 Console.WriteLine($"Enter a letter: {blankedWord}");
                 string guessLetter = Console.ReadLine().ToUpper();
-                for (int i = 0; i < blankedWord.Length; i++)
+                if (wordToBlank.ToString().Contains(guessLetter))
                 {
-                    if (guessLetter == wordToBlank[i].ToString())
+                    for (int i = 0; i < blankedWord.Length; i++)
                     {
-                        Console.WriteLine("Exists");
-                        foreach (char g in blankedWord)
+                        if (guessLetter == wordToBlank[i].ToString() && blankedWord[i] == '_')
                         {
-                             blankedWord = blankedWord.Remove(i, 1).Insert(i, guessLetter).ToString(); // Remove underscore character + insert correct character in its place
+                            Console.WriteLine("Exists");
+                            blankedWord = blankedWord.Remove(i, 1).Insert(i, guessLetter).ToString(); // Remove underscore character + insert correct character in its place
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine("Doesn't Exist");
-                        remainingGuesses--;
-
-                        Thread.Sleep(1000);
-                        Console.WriteLine("Draw line here"); // Draw method to be implemented and called on this line
-                    }
                 }
-                Console.WriteLine(blankedWord);
+                else
+                {
+                    Console.WriteLine("Doesn't Exist");
+                    remainingGuesses--;
+
+                    Thread.Sleep(1000);
+                    Console.WriteLine("Draw line here"); // Draw method to be implemented and called on this line
+                }
+                if (wordToBlank == blankedWord)
+                {
+                    Console.WriteLine("Well done!");
+                    break;
+                }
+                if (remainingGuesses == 0)
+                {
+                    Console.WriteLine($"Game Over - {wordToBlank} was the word. Thanks for playing");
+                    break;
+                }
             }
         }
     }
