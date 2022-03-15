@@ -14,7 +14,8 @@ namespace Hangman
             string blankedWord = "";
             ConsoleKeyInfo guessLetter;
 
-            for (int i = 0; i < wordToBlank.Length; i++) blankedWord += "_";
+            for (int i = 0; i < wordToBlank.Length; i++) 
+                blankedWord += "_";
 
             while (wordToBlank != blankedWord || remainingGuesses != 0)
             {
@@ -30,6 +31,11 @@ namespace Hangman
                             blankedWord = blankedWord.Remove(i, 1).Insert(i, guessLetter.Key.ToString()); // Remove underscore character + insert correct character in its place
                         }
                     }
+                    if (wordToBlank == blankedWord)
+                    {
+                        Console.WriteLine("Well done!");
+                        break;
+                    }
                     Thread.Sleep(500);
                     Console.Clear();
                 }
@@ -37,19 +43,14 @@ namespace Hangman
                 {
                     Console.WriteLine("\nDoesn't Exist");
                     remainingGuesses--;
+                    if (remainingGuesses <= 0)
+                    {
+                        Console.WriteLine($"Game Over - {wordToBlank} was the word. Thanks for playing");
+                        break;
+                    }
                     Console.WriteLine("Draw line here"); // Draw method to be implemented and called on this line
                     Thread.Sleep(1500);
                     Console.Clear();
-                }
-                if (wordToBlank == blankedWord)
-                {
-                    Console.WriteLine("Well done!");
-                    break;
-                }
-                if (remainingGuesses == 0)
-                {
-                    Console.WriteLine($"Game Over - {wordToBlank} was the word. Thanks for playing");
-                    break;
                 }
             }
         }
